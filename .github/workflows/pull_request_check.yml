@@ -22,5 +22,5 @@ jobs:
         run: terraform fmt -check -recursive
 
       - name: Terraform Validate
-        # working-directory: ./terraform
+        working-directory: ./terraform
         run: terraform validate
