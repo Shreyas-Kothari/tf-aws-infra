@@ -1,6 +1,6 @@
 # Defining the VPC
 resource "aws_vpc" "shreyas_terraform_vpc" {
-cidr_block = var.vpc_cidr
+  cidr_block = var.vpc_cidr
 
   tags = {
     Name = "VPC Terraform Cloud"
@@ -10,7 +10,7 @@ cidr_block = var.vpc_cidr
 # Defining the public subnet 
 resource "aws_subnet" "shreyas_terraform_pub_subnet" {
   count             = length(var.availability_zones)
-  vpc_id            = aws_vpc.shreyas_terraform_vpc.id
+  vpc_id            = aws_vpc.shreyas_terraform
   cidr_block        = cidrsubnet(var.vpc_cidr, 8, count.index)
   availability_zone = element(var.availability_zones, count.index)
   tags = {
