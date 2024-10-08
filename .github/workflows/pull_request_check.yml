@@ -18,4 +18,5 @@ jobs:
         run: terraform fmt -check -recursive
 
       - name: Run Terraform Validate
+        working-directory: ./terraform
         run: terraform validate
