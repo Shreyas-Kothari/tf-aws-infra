@@ -1,11 +1,11 @@
 # Defining the VPC
-# resource "aws_vpc" "shreyas_terraform_vpc" {
-#   cidr_block = var.vpc_cidr
+resource "aws_vpc" "shreyas_terraform_vpc" {
+  cidr_block = var.vpc_cidr
 
-#   tags = {
-#     Name = "VPC Terraform Cloud"
-#   }
-# }
+  tags = {
+    Name = "VPC Terraform Cloud"
+  }
+}
 
 # Defining the public subnet 
 resource "aws_subnet" "shreyas_terraform_pub_subnet" {
