@@ -10,8 +10,14 @@ variable "vpc_cidr" {
   default     = "10.0.0.0/16"
 }
 
-variable "availability_zones" {
-  type        = list(string)
-  description = "The list of availability zones for the subnet"
-  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
+variable "privateSubnetCount" {
+  type        = number
+  description = "Count of private Subnets"
+  default     = 3
+}
+
+variable "publicSubnetCount" {
+  type        = number
+  description = "Count of public Subnets"
+  default     = 3
 }
