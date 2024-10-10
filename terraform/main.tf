@@ -1,50 +1,10 @@
-# Defining the VPC
-resource "aws_vpc" "shreyas_terraform_vpc" {
-  cidr_block = var.vpc_cidr
-
-  tags = {
-    Name = "VPC Terraform Cloud"
-  }
-}
-
-# Getting all the available availability zones dynamizally
-data "aws_availability_zones" "terraform_availability_zones" {
-  state = "available"
-  filter {
-    name   = "opt-in-status"
-    values = ["opt-in-not-required"]
-  }
-}
-
-# Defining the public subnet 
-resource "aws_subnet" "shreyas_terraform_pub_subnet" {
-  count                   = var.publicSubnetCount
-  vpc_id                  = aws_vpc.shreyas_terraform_vpc.id
-  cidr_block              = cidrsubnet(var.vpc_cidr, 8, count.index)
-  availability_zone       = element(data.aws_availability_zones.terraform_availability_zones.names, count.index)
-  map_public_ip_on_launch = true
-  tags = {
-    Name = "Terraform public subnet ${count.index + 1}"
-  }
-}
-
-# Defining the private subnet
-resource "aws_subnet" "shreyas_terraform_pvt_subnet" {
-  count             = var.privateSubnetCount
-  vpc_id            = aws_vpc.shreyas_terraform_vpc.id
-  cidr_block        = cidrsubnet(var.vpc_cidr, 8, count.index + var.publicSubnetCount)
-  availability_zone = element(data.aws_availability_zones.terraform_availability_zones.names, count.index)
-  tags = {
-    Name = "Terraform private subnet ${count.index + 1}"
-  }
-}
 
 # Defining the internet gateway
 resource "aws_internet_gateway" "shreyas_terraform_gw" {
   vpc_id = aws_vpc.shreyas_terraform_vpc.id
 
   tags = {
-    Name = "Internet Gateway"
+    Name = "Terraform Internet Gateway"
   }
 }
 
