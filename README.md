@@ -71,21 +71,15 @@ Once you have created the cli secret credentials for the user and assigned it en
 aws configure --profile dev
 ```
 
+Now provide the credentials that you copied from the AWS.
+
 ### 3. Use AWS Profile with Terraform
 
 To ensure Terraform uses the custom AWS profile (dev/demo), you need to set the AWS profile environment variable.
 
-- On Linux/macOS:
-
-    ```bash
-    export AWS_PROFILE=dev
-    ```
-
-- On Windows
-  
-    ```bash
-    set AWS_PROFILE dev
-    ```
+```bash
+export AWS_PROFILE=dev
+```
 
 ## CI Workflow Overview
 
