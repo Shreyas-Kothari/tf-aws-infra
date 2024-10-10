@@ -108,8 +108,6 @@ To enforce code quality and prevent broken configurations from being merged into
 
 This ensures that all pull requests are validated and formatted properly before merging.
 
-
-
 ## Getting Started
 
 ### 1. Clone the Repository
