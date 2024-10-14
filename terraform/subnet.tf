@@ -11,10 +11,10 @@ data "aws_availability_zones" "terraform_availability_zones" {
 # Defining the public subnet 
 resource "aws_subnet" "shreyas_terraform_pub_subnet" {
   count                   = var.publicSubnetCount
-  vpc_id                  = aws_vpc.shreyas_terraform_vpc.id
+  vpc_id                  =        aws_vpc.shreyas_terraform_vpc.id
   cidr_block              = cidrsubnet(var.vpc_cidr, 8, count.index)
   availability_zone       = element(data.aws_availability_zones.terraform_availability_zones.names, count.index)
-  map_public_ip_on_launch = true
+  map_public_ip_on_launch =       true
   tags = {
     Name = "Terraform public subnet ${count.index + 1}"
   }
