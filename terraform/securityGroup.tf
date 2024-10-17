@@ -10,7 +10,7 @@ resource "aws_security_group" "shreyas_terraform_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.sg_cidr]
   }
 
   # Ingress rule for HTTP (port 80)
@@ -19,7 +19,7 @@ resource "aws_security_group" "shreyas_terraform_sg" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.sg_cidr]
   }
 
   # Ingress rule for HTTPS (port 443)
@@ -28,7 +28,7 @@ resource "aws_security_group" "shreyas_terraform_sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.sg_cidr]
   }
 
   # Ingress rule for the application port (8080)
@@ -37,7 +37,7 @@ resource "aws_security_group" "shreyas_terraform_sg" {
     from_port   = var.app_port
     to_port     = var.app_port
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.sg_cidr]
   }
 
   # Outbound rule for all traffic
@@ -49,7 +49,7 @@ resource "aws_security_group" "shreyas_terraform_sg" {
   }
 
   tags = {
-    Name        = "Application Security Group",
+    Name        = "CSYE6225 Application Security Group",
     Description = "Security group for the web application in CSYE 6225 course Spring Boot Application"
   }
 }

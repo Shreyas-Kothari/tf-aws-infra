@@ -32,3 +32,9 @@ variable "instance_type" {
   description = "The instance type for the EC2 instances"
   type        = string
 }
+
+variable "sg_cidr" {
+  description = "The CIDR block for the security group"
+  type        = string
+  default     = "0.0.0.0/0"
+}
