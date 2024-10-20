@@ -16,18 +16,30 @@ resource "aws_db_parameter_group" "shreyas_terraform_parameter_group" {
   tags = {
     Name = "CSYE6225 Cloud Database Parameter Group"
   }
+}
 
+# Generate a random password for MySQL
+resource "random_password" "shreyas_terraform_db_password" {
+  length  = 16
+  special = false
+}
+
+output "shreyas_terraform_db_password" {
+  description = "The randomly generated password for the database"
+  value       = random_password.shreyas_terraform_db_password.result
+  sensitive   = true
 }
 
 resource "aws_db_instance" "shreyas_terraform_db_instance" {
   identifier             = "csye6225"
   engine                 = var.db_engine
+  port                   = var.db_port
   engine_version         = var.db_engine_version
   instance_class         = var.db_instance_class
   allocated_storage      = 10
   db_name                = var.db_name
   username               = var.db_username
-  password               = var.db_password
+  password               = random_password.shreyas_terraform_db_password.result
   parameter_group_name   = aws_db_parameter_group.shreyas_terraform_parameter_group.name
   publicly_accessible    = false
   multi_az               = false
