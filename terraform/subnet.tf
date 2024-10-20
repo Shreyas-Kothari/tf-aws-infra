@@ -30,3 +30,14 @@ resource "aws_subnet" "shreyas_terraform_pvt_subnet" {
     Name = "Terraform private subnet ${count.index + 1}"
   }
 }
+
+# Define private subnet Group
+resource "aws_db_subnet_group" "shreyas_terraform_db_subnet_group" {
+  name        = "csye6225-private-subnet-group"
+  description = "My subnet group for the CSYE 6225 course database and other private resources"
+  subnet_ids  = aws_subnet.shreyas_terraform_pvt_subnet[*].id ## optional -> [for subnet in aws_subnet.shreyas_terraform_pvt_subnet : subnet.id]
+
+  tags = {
+    Name = "CSYE6225 Cloud Private Subnet Group"
+  }
+}

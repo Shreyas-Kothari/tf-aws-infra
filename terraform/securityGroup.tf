@@ -1,5 +1,5 @@
 # Define the security group for the web application
-resource "aws_security_group" "shreyas_terraform_sg" {
+resource "aws_security_group" "shreyas_terraform_app_sg" {
   name        = "csye6225_app_security_group"
   description = "Security group for web application"
   vpc_id      = aws_vpc.shreyas_terraform_vpc.id
@@ -51,5 +51,34 @@ resource "aws_security_group" "shreyas_terraform_sg" {
   tags = {
     Name        = "CSYE6225 Application Security Group",
     Description = "Security group for the web application in CSYE 6225 course Spring Boot Application"
+  }
+}
+
+# Database security Group
+resource "aws_security_group" "shreyas_terraform_db_sg" {
+  name        = "database security group"
+  description = "Security group for database for the CSYE 6225 course"
+  vpc_id      = aws_vpc.shreyas_terraform_vpc.id
+
+  # Ingress rule for MySQL (port 3306)
+  ingress {
+    description     = "Allow MySQL"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [aws_security_group.shreyas_terraform_app_sg.id]
+  }
+
+  # Outbound rule for all traffic
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name        = "CSYE6225 Database Security Group",
+    Description = "Security group for the database in CSYE 6225 course"
   }
 }
