@@ -36,7 +36,7 @@ resource "aws_db_instance" "shreyas_terraform_db_instance" {
   port                   = var.db_port
   engine_version         = var.db_engine_version
   instance_class         = var.db_instance_class
-  allocated_storage      = 10
+  allocated_storage      = var.db_storage
   db_name                = var.db_name
   username               = var.db_username
   password               = random_password.shreyas_terraform_db_password.result
