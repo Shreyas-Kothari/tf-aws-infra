@@ -63,6 +63,12 @@ variable "db_instance_class" {
   default     = "db.t3.micro"
 }
 
+variable "db_storage" {
+  description = "value for allocated storage for the RDS instance"
+  type        = number
+  default     = 20
+}
+
 variable "db_port" {
   description = "The port for the RDS instance"
   type        = number
