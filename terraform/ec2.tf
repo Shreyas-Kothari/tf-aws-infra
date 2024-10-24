@@ -21,14 +21,14 @@ resource "aws_instance" "web_app_instance" {
 
   user_data = <<-EOF
     #!/bin/bash
+    ####################################################
+    #       Configuring Environment Variables          #
+    ####################################################
     echo "# App Environment Variables" | sudo tee -a /etc/environment
     echo "SPRING_DATASOURCE_URL=jdbc:mysql://${aws_db_instance.shreyas_terraform_db_instance.address}:${var.db_port}/${var.db_name}" | sudo tee -a /etc/environment
     echo "SPRING_DATASOURCE_USERNAME=${var.db_username}" | sudo tee -a /etc/environment
     echo "SPRING_DATASOURCE_PASSWORD=${random_password.shreyas_terraform_db_password.result}" | sudo tee -a /etc/environment
     source /etc/environment
-    sudo systemctl enable myapp.service
-    sudo systemctl restart myapp.service
-    sudo systemctl status myapp.service
     EOF
 
   # Disable accidental termination protection
