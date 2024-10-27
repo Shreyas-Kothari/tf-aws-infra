@@ -86,3 +86,9 @@ variable "db_username" {
   type        = string
   default     = "csye6224"
 }
+
+variable "application_logs_path" {
+  description = "The path for application logs"
+  type        = string
+  default     = "/logs/app.log"
+}
