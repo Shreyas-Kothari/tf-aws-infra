@@ -92,3 +92,9 @@ variable "application_logs_path" {
   type        = string
   default     = "/logs/app.log"
 }
+
+variable "domain_name" {
+  description = "Name of domain"
+  type        = string
+  default     = "dev.shreyaskothari.me"
+}
