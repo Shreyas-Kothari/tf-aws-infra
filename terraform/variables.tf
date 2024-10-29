@@ -98,3 +98,31 @@ variable "domain_name" {
   type        = string
   default     = "dev.shreyaskothari.me"
 }
+
+variable "MAIL_SERVICE_ENABLED" {
+  description = "Flag to enable mail service"
+  type        = string
+  default     = "true"
+}
+
+variable "MAIL_SERVICE_PASSWORD" {
+  description = "Password for mail service"
+  type        = string
+}
+
+variable "MAIL_SERVICE_USERNAME" {
+  description = "Username for mail service"
+  type        = string
+}
+
+variable "MAIL_SERVICE_HOST" {
+  description = "Host for mail service"
+  type        = string
+  default     = "sandbox.smtp.mailtrap.io"
+}
+
+variable "MAIL_SERVICE_PORT" {
+  description = "Port for mail service"
+  type        = string
+  default     = "2525"
+}
