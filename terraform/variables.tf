@@ -126,3 +126,51 @@ variable "MAIL_SERVICE_PORT" {
   type        = string
   default     = "2525"
 }
+
+variable "lb_target_group_deregistration_delay" {
+  description = "Deregistration delay for the target group"
+  type        = number
+  default     = 100
+}
+
+variable "asg_max_size" {
+  description = "Maximum size for the Auto Scaling Group"
+  type        = number
+  default     = 3
+}
+
+variable "asg_min_size" {
+  description = "Minimum size for the Auto Scaling Group"
+  type        = number
+  default     = 1
+}
+
+variable "asg_desired_capacity" {
+  description = "Desired capacity for the Auto Scaling Group"
+  type        = number
+  default     = 1
+}
+
+variable "low_cpu_alarm_threshold" {
+  description = "Low CPU alarm threshold"
+  type        = number
+  default     = 10
+}
+
+variable "high_cpu_alarm_threshold" {
+  description = "High CPU alarm threshold"
+  type        = number
+  default     = 15
+}
+
+variable "scale_down_cooldown" {
+  description = "Cooldown period for scale down in sec"
+  type        = number
+  default     = 60
+}
+
+variable "scale_up_cooldown" {
+  description = "Cooldown period for scale up in sec"
+  type        = number
+  default     = 60
+}
