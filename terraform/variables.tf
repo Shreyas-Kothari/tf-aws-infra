@@ -99,34 +99,6 @@ variable "domain_name" {
   default     = "dev.shreyaskothari.me"
 }
 
-variable "MAIL_SERVICE_ENABLED" {
-  description = "Flag to enable mail service"
-  type        = string
-  default     = "true"
-}
-
-variable "MAIL_SERVICE_PASSWORD" {
-  description = "Password for mail service"
-  type        = string
-}
-
-variable "MAIL_SERVICE_USERNAME" {
-  description = "Username for mail service"
-  type        = string
-}
-
-variable "MAIL_SERVICE_HOST" {
-  description = "Host for mail service"
-  type        = string
-  default     = "sandbox.smtp.mailtrap.io"
-}
-
-variable "MAIL_SERVICE_PORT" {
-  description = "Port for mail service"
-  type        = string
-  default     = "2525"
-}
-
 variable "lb_target_group_deregistration_delay" {
   description = "Deregistration delay for the target group"
   type        = number
@@ -173,4 +145,21 @@ variable "scale_up_cooldown" {
   description = "Cooldown period for scale up in sec"
   type        = number
   default     = 60
+}
+
+variable "mailgun_api_key" {
+  description = "Mailgun API key"
+  type        = string
+}
+
+variable "serverless_file_path" {
+  description = "Path to the serverless file"
+  type        = string
+  default     = "../../serverless-fork/ServerlessEmailLambda/target/ServerlessEmail.jar"
+}
+
+variable "email_expiry_min" {
+  description = "Email expiry time in minutes"
+  type        = number
+  default     = 3
 }
