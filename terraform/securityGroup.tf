@@ -118,34 +118,3 @@ resource "aws_security_group" "shreyas_terraform_lb_sg" {
     Name = "CSYE6225 Load Balancer Security Group"
   }
 }
-
-resource "aws_security_group" "shreyas_terraform_lambda_sg" {
-  name        = "csye6225_lambda_security_group"
-  description = "Security group for lambda"
-  vpc_id      = aws_vpc.shreyas_terraform_vpc.id
-
-  # Allow HTTP (port 80) from anywhere
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "CSYE6225 Lambda Security Group"
-  }
-}

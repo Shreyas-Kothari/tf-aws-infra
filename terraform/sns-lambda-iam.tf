@@ -37,6 +37,7 @@ resource "aws_iam_policy" "lambda_sns_policy" {
   })
 }
 
+# Policy for Lambda to write logs to CloudWatch
 resource "aws_iam_policy" "lambda_cloudwatch_policy" {
   name        = "lambda_cloudwatch_policy"
   description = "Policy for Lambda to write logs to CloudWatch"
@@ -57,50 +58,19 @@ resource "aws_iam_policy" "lambda_cloudwatch_policy" {
   })
 }
 
-resource "aws_iam_policy" "lambda_network_access_policy" {
-  name        = "LambdaNetworkAccessPolicy"
-  description = "Policy to allow Lambda network access"
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Action = [
-          "ec2:DescribeNetworkInterfaces",
-          "ec2:CreateNetworkInterface",
-          "ec2:DeleteNetworkInterface",
-          "ec2:AttachNetworkInterface"
-        ],
-        Resource = "*"
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "lambda_network_access_attachment" {
-  role       = aws_iam_role.shreyas_tf_lambda_role.name
-  policy_arn = aws_iam_policy.lambda_network_access_policy.arn
-}
-
-
-resource "aws_iam_role_policy_attachment" "attach_lambda_policy" {
-  role       = aws_iam_role.shreyas_tf_lambda_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
-}
-
 # Attach the policy to the Lambda role
-resource "aws_iam_role_policy_attachment" "lambda_cloudwatch_attachment" {
+resource "aws_iam_role_policy_attachment" "attach_lambda_cloudwatch" {
   role       = aws_iam_role.shreyas_tf_lambda_role.name
   policy_arn = aws_iam_policy.lambda_cloudwatch_policy.arn
 }
 
 # Attach the policy to the Lambda role
-resource "aws_iam_role_policy_attachment" "lambda_policy_attachment" {
+resource "aws_iam_role_policy_attachment" "attach_lambda_sns_policy" {
   role       = aws_iam_role.shreyas_tf_lambda_role.name
   policy_arn = aws_iam_policy.lambda_sns_policy.arn
 }
 
+# Allow SNS to invoke Lambda i.e subscribe Lambda to SNS
 resource "aws_lambda_permission" "shreyas_tf_allow_sns_trigger" {
   statement_id  = "AllowExecutionFromSNS"
   action        = "lambda:InvokeFunction"
@@ -109,6 +79,7 @@ resource "aws_lambda_permission" "shreyas_tf_allow_sns_trigger" {
   source_arn    = aws_sns_topic.shreyas_tf_sns_topic.arn
 }
 
+# IAM policy for EC2 role to access SNS
 resource "aws_iam_policy" "ec2_sns_publish_policy" {
   name        = "EC2SNSPublishPolicy"
   description = "Policy to allow EC2 to publish to SNS"
