@@ -24,11 +24,9 @@ resource "aws_launch_template" "shreyas_asg_launch_template" {
     echo "S3_BUCKET_NAME=${aws_s3_bucket.shreyas_tf_s3_bucket.bucket}" | sudo tee -a /etc/environment
     echo "LOG_FILE_NAME=${var.application_logs_path}" | sudo tee -a /etc/environment
     echo "AWS_REGION=${var.aws_region}" | sudo tee -a /etc/environment
-    echo "MAIL_SERVICE_ENABLED=${var.MAIL_SERVICE_ENABLED}" | sudo tee -a /etc/environment
-    echo "MAIL_SERVICE_PASSWORD=${var.MAIL_SERVICE_PASSWORD}" | sudo tee -a /etc/environment
-    echo "MAIL_SERVICE_USERNAME=${var.MAIL_SERVICE_USERNAME}" | sudo tee -a /etc/environment
-    echo "MAIL_SERVICE_HOST=${var.MAIL_SERVICE_HOST}" | sudo tee -a /etc/environment
-    echo "MAIL_SERVICE_PORT=${var.MAIL_SERVICE_PORT}" | sudo tee -a /etc/environment
+    echo "SNS_MAIL_TOPIC_ARN=${aws_sns_topic.shreyas_tf_sns_topic.arn}" | sudo tee -a /etc/environment
+    echo "APPLICATION_BASE_URL=${var.domain_name}" | sudo tee -a /etc/environment
+    echo "EMAIL_EXPIRY_MIN=${var.email_expiry_min}" | sudo tee -a /etc/environment
     source /etc/environment
     EOF
   )
