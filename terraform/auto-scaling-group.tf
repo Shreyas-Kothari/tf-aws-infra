@@ -1,5 +1,5 @@
 resource "aws_launch_template" "shreyas_asg_launch_template" {
-  name_prefix   = "csye6225_asg_template"
+  name          = "csye6225_asg_template"
   image_id      = var.custom_ami_id
   instance_type = var.instance_type
   #   key_name             = var.key_name
