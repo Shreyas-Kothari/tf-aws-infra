@@ -68,6 +68,30 @@ resource "aws_iam_policy" "secretsmanager_access_policy" {
   })
 }
 
+resource "aws_iam_policy" "kmsS3_access_policy" {
+  name        = "KMSS3AccessPolicy"
+  description = "A policy to allow EC2 instances to access KMS key and S3 bucket"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "kms:Decrypt",
+          "kms:Encrypt",
+          "kms:ReEncrypt*",
+          "kms:GenerateDataKey*",
+        ],
+        Resource = [
+          aws_kms_key.shreyas_tf_s3_kms_key.arn
+        ]
+      }
+    ]
+  })
+  
+}
+
 # Attach the s3 policy to the ec2 role
 resource "aws_iam_role_policy_attachment" "s3_access_attachment" {
   role       = aws_iam_role.ec2_s3_cw_sns_access_role.name
@@ -84,6 +108,12 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_access_attachment" {
 resource "aws_iam_role_policy_attachment" "secretsmanager_access_attachment" {
   role       = aws_iam_role.ec2_s3_cw_sns_access_role.name
   policy_arn = aws_iam_policy.secretsmanager_access_policy.arn
+}
+
+# Attach the KMS policy to the ec2 role
+resource "aws_iam_role_policy_attachment" "kmsS3_access_attachment" {
+  role       = aws_iam_role.ec2_s3_cw_sns_access_role.name
+  policy_arn = aws_iam_policy.kmsS3_access_policy.arn
 }
 
 # Attach the IAM role to the EC2 instance profile
