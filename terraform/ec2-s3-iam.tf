@@ -89,7 +89,7 @@ resource "aws_iam_policy" "kmsS3_access_policy" {
       }
     ]
   })
-  
+
 }
 
 # Attach the s3 policy to the ec2 role
