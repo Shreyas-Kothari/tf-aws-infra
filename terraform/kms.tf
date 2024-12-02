@@ -192,7 +192,7 @@ resource "aws_kms_key" "shreyas_tf_sm_kms_key" {
         Resource = "arn:aws:secretsmanager:${var.aws_region}:${data.aws_caller_identity.current.account_id}:secret:*"
       },
       {
-        Sid = "Allow Lambda to use the KMS key",
+        Sid    = "Allow Lambda to use the KMS key",
         Effect = "Allow",
         Principal = {
           AWS = aws_iam_role.shreyas_tf_lambda_role.arn
@@ -203,7 +203,7 @@ resource "aws_kms_key" "shreyas_tf_sm_kms_key" {
         Resource = "*"
       },
       {
-        Sid = "Allow EC2 to use the KMS key",
+        Sid    = "Allow EC2 to use the KMS key",
         Effect = "Allow",
         Principal = {
           AWS = aws_iam_role.ec2_s3_cw_sns_access_role.arn
@@ -211,7 +211,18 @@ resource "aws_kms_key" "shreyas_tf_sm_kms_key" {
         Action = [
           "kms:Decrypt"
         ],
-        Resource = "*"  
+        Resource = "*"
+      },
+      {
+        Sid    = "Allow Lambda to use the KMS key",
+        Effect = "Allow",
+        Principal = {
+          AWS = aws_iam_role.shreyas_tf_lambda_role.arn
+        },
+        Action = [
+          "kms:Decrypt"
+        ],
+        Resource = "*"
       }
     ]
   })

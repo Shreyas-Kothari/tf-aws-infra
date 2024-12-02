@@ -39,7 +39,7 @@ resource "aws_iam_policy" "lambda_sns_policy" {
 
 # Policy for Lambda to write logs to CloudWatch
 resource "aws_iam_policy" "lambda_cloudwatch_policy" {
-  name        = "lambda_cloudwatch_policy"
+  name        = "LambdaCloudwatchPolicy"
   description = "Policy for Lambda to write logs to CloudWatch"
 
   policy = jsonencode({
@@ -69,9 +69,11 @@ resource "aws_iam_policy" "lambda_kms_policy" {
       {
         Effect = "Allow",
         Action = [
-          "kms:*"
+          "kms:Decrypt"
         ],
-        Resource = "*"
+        Resource = [
+          "${aws_kms_key.shreyas_tf_sm_kms_key.arn}"
+        ]
       }
     ]
   })
@@ -88,9 +90,14 @@ resource "aws_iam_policy" "lambda_secrets_manager_policy" {
       {
         Effect = "Allow",
         Action = [
-          "secretsmanager:*"
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:DescribeSecret",
+          "secretsmanager:ListSecretVersionIds",
+          "secretsmanager:ListSecrets"
         ],
-        Resource = "*"
+        Resource = [
+          "${aws_secretsmanager_secret.shreyas_tf_secret.arn}"
+        ]
       }
     ]
   })

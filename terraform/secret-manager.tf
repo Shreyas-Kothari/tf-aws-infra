@@ -17,9 +17,9 @@ resource "aws_secretsmanager_secret" "shreyas_tf_secret" {
 resource "aws_secretsmanager_secret_version" "shreyas_tf_secret_version" {
   secret_id = aws_secretsmanager_secret.shreyas_tf_secret.id
   secret_string = jsonencode({
-    username = var.db_username
-    password = random_password.shreyas_terraform_db_password.result
-    api_key  = var.mailgun_api_key
-    domain   = var.domain_name
+    username             = var.db_username
+    password             = random_password.shreyas_terraform_db_password.result
+    MAIL_GUN_API_KEY     = var.mailgun_api_key
+    MAIL_GUN_DOMAIN_NAME = var.domain_name
   })
 }
