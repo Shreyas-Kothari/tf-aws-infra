@@ -1,7 +1,5 @@
-resource "random_uuid" "shreyas_tf_s3_name" {}
-
 resource "aws_s3_bucket" "shreyas_tf_s3_bucket" {
-  bucket        = "csye6225-${random_uuid.shreyas_tf_s3_name.result}"
+  bucket        = "csye6225-${random_id.suffix.hex}"
   force_destroy = true
   tags = {
     Name        = "CSYE6225 Cloud Storage Bucket"
@@ -23,7 +21,8 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "shreyas_tf_s3_enc
   bucket = aws_s3_bucket.shreyas_tf_s3_bucket.id
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      kms_master_key_id = aws_kms_key.shreyas_tf_s3_kms_key.arn
+      sse_algorithm     = "aws:kms"
     }
   }
 }

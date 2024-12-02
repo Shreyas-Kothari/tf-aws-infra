@@ -163,3 +163,9 @@ variable "email_expiry_min" {
   type        = number
   default     = 3
 }
+
+variable "kms_retention_days" {
+  description = "KMS key retention period in days"
+  type        = number
+  default     = 90
+}

@@ -58,6 +58,44 @@ resource "aws_iam_policy" "lambda_cloudwatch_policy" {
   })
 }
 
+# Policy for Lambda to decrypt KMS key
+resource "aws_iam_policy" "lambda_kms_policy" {
+  name        = "LambdaKMSPolicy"
+  description = "Policy for Lambda to decrypt KMS key"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "kms:*"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+# IAM Policy for Lambda to access Secrets Manager
+resource "aws_iam_policy" "lambda_secrets_manager_policy" {
+  name        = "LambdaSecretsManagerPolicy"
+  description = "Policy for Lambda to access Secrets Manager"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "secretsmanager:*"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
 # Attach the policy to the Lambda role
 resource "aws_iam_role_policy_attachment" "attach_lambda_cloudwatch" {
   role       = aws_iam_role.shreyas_tf_lambda_role.name
@@ -68,6 +106,18 @@ resource "aws_iam_role_policy_attachment" "attach_lambda_cloudwatch" {
 resource "aws_iam_role_policy_attachment" "attach_lambda_sns_policy" {
   role       = aws_iam_role.shreyas_tf_lambda_role.name
   policy_arn = aws_iam_policy.lambda_sns_policy.arn
+}
+
+# Attach the secret manager policy to the Lambda role
+resource "aws_iam_role_policy_attachment" "attach_lambda_secrets_manager_policy" {
+  role       = aws_iam_role.shreyas_tf_lambda_role.name
+  policy_arn = aws_iam_policy.lambda_secrets_manager_policy.arn
+}
+
+# Attach the KMS policy to the Lambda role
+resource "aws_iam_role_policy_attachment" "attach_lambda_kms_policy" {
+  role       = aws_iam_role.shreyas_tf_lambda_role.name
+  policy_arn = aws_iam_policy.lambda_kms_policy.arn
 }
 
 # Allow SNS to invoke Lambda i.e subscribe Lambda to SNS

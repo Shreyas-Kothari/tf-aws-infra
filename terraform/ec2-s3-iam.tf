@@ -18,7 +18,7 @@ resource "aws_iam_role" "ec2_s3_cw_sns_access_role" {
 
 # IAM Policy to allow S3 access
 resource "aws_iam_policy" "s3_access_policy" {
-  name        = "s3_access_policy"
+  name        = "S3AccessPolicy"
   description = "A policy to allow EC2 instances to access specific S3 bucket"
 
   policy = jsonencode({
@@ -42,7 +42,33 @@ resource "aws_iam_policy" "s3_access_policy" {
   depends_on = [aws_s3_bucket.shreyas_tf_s3_bucket]
 }
 
-# Attach the policy to the role
+# IAM Policy to allow Secrets Manager access
+
+resource "aws_iam_policy" "secretsmanager_access_policy" {
+  name        = "SecretsManagerAccessPolicy"
+  description = "A policy to allow EC2 instances to access Secrets Manager"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "secretsmanager:GetRandomPassword",
+          "secretsmanager:GetResourcePolicy",
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:DescribeSecret",
+          "secretsmanager:ListSecretVersionIds",
+          "secretsmanager:ListSecrets",
+          "secretsmanager:BatchGetSecretValue"
+        ],
+        Resource = aws_secretsmanager_secret.shreyas_tf_secret.arn
+      }
+    ]
+  })
+}
+
+# Attach the s3 policy to the ec2 role
 resource "aws_iam_role_policy_attachment" "s3_access_attachment" {
   role       = aws_iam_role.ec2_s3_cw_sns_access_role.name
   policy_arn = aws_iam_policy.s3_access_policy.arn
@@ -54,7 +80,13 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_access_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }
 
-# Attach the IAM role to the EC2 instance
+# Attach the secrets manager policy to the ec2 role
+resource "aws_iam_role_policy_attachment" "secretsmanager_access_attachment" {
+  role       = aws_iam_role.ec2_s3_cw_sns_access_role.name
+  policy_arn = aws_iam_policy.secretsmanager_access_policy.arn
+}
+
+# Attach the IAM role to the EC2 instance profile
 resource "aws_iam_instance_profile" "ec2_s3_instance_profile" {
   name = "ec2_s3_access_instance_profile"
   role = aws_iam_role.ec2_s3_cw_sns_access_role.name
