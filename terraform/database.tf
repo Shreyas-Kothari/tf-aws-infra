@@ -46,7 +46,8 @@ resource "aws_db_instance" "shreyas_terraform_db_instance" {
   vpc_security_group_ids = [aws_security_group.shreyas_terraform_db_sg.id]
   db_subnet_group_name   = aws_db_subnet_group.shreyas_terraform_db_subnet_group.name
   skip_final_snapshot    = true
-
+  storage_encrypted      = true
+  kms_key_id             = aws_kms_key.shreyas_tf_db_kms_key.arn
   tags = {
     Name = "CSYE6225 Cloud Database instance"
   }

@@ -6,12 +6,12 @@ resource "aws_lambda_function" "shreyas_tf_sns_email_processor" {
   timeout       = 60
   memory_size   = 128
 
-  filename = var.serverless_file_path
-
+  filename    = var.serverless_file_path
+  kms_key_arn = aws_kms_key.shreyas_tf_sm_kms_key.arn
   environment {
     variables = {
-      MAIL_GUN_API_KEY     = var.mailgun_api_key
-      MAIL_GUN_DOMAIN_NAME = var.domain_name
+      REGION              = var.aws_region
+      SECRET_MANAGER_NAME = aws_secretsmanager_secret.shreyas_tf_secret.name
     }
   }
 
