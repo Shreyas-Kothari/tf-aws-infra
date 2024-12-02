@@ -22,11 +22,22 @@ resource "aws_lb_target_group" "shreyas_tf_alb_target_group" {
   deregistration_delay = var.lb_target_group_deregistration_delay
 }
 
-resource "aws_lb_listener" "shreyas_tf_alb_listener" {
-  load_balancer_arn = aws_lb.shreyas_tf_load_balancer.arn
-  port              = "80"
-  protocol          = "HTTP"
+# resource "aws_lb_listener" "shreyas_tf_alb_listener" {
+#   load_balancer_arn = aws_lb.shreyas_tf_load_balancer.arn
+#   port              = "80"
+#   protocol          = "HTTP"
 
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = aws_lb_target_group.shreyas_tf_alb_target_group.arn
+#   }
+# }
+
+resource "aws_lb_listener" "shreyas_tf_alb_listener_https" {
+  load_balancer_arn = aws_lb.shreyas_tf_load_balancer.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  certificate_arn   = "arn:aws:acm:us-east-1:762233742104:certificate/a2b57bc8-2f83-4caa-a4c8-d998a2e95500"
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.shreyas_tf_alb_target_group.arn
